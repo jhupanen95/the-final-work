@@ -81,7 +81,7 @@ public class ResultPage extends BasePage {
     public void fillField(WebElement field, String value) {
         super.fillField(field, value);
         field.sendKeys(Keys.ENTER);
-        DriverManager.getDriver().findElement(By.xpath("//div[@class='column__item_remove-margin']//span[text()='Цена']"));
+        DriverManager.getDriver().findElement(By.xpath("//div[@class='column__item_remove-margin']//div[contains(text(), 'Цена')]"));
     }
 
     @Override
