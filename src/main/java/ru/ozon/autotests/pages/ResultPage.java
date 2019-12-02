@@ -1,5 +1,6 @@
 package ru.ozon.autotests.pages;
 
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
@@ -16,28 +17,20 @@ import java.util.Map;
 
 public class ResultPage extends BasePage {
 
-    @FindBy(xpath = "//label[text()='от']/../input")
-    @FieldName(name = "от")
-    public WebElement downToPrice;
-
-    @FindBy(xpath = "//label[text()='до']/../input")
-    @FieldName(name = "до")
-    public WebElement upToPrice;
-
     @FindBy(xpath = "//span[text()='Высокий рейтинг']/../input")
     @FieldName(name = "Высокий рейтинг")
     public WebElement highRating;
 
     @FindBy(xpath = "//div[text()='По запросу ']")
-    @FieldName(name = "Запрос")
-    public WebElement request;
+    @FieldName(name = "По запросу")
+    public WebElement titleText;
 
     @FindBy(xpath = "//a[@href='/cart']")
     @FieldName(name = "Корзина")
     public WebElement cart;
 
     public void loadPage() throws Exception{
-        wait.until(ExpectedConditions.visibilityOf(getElement("Запрос")));
+        wait.until(ExpectedConditions.visibilityOf(getElement("По запросу")));
     }
 
     public void openListCheckBox(String nameCategory) throws Exception{
@@ -50,14 +43,14 @@ public class ResultPage extends BasePage {
         WebElement checkBox = DriverManager.getDriver().findElement(By.xpath("//div[contains(text(), '" + category + "')]/..//span[contains(text(), '" + value + "')]/../input"));
         scrollToElement(checkBox);
         click(checkBox);
-        wait.until(ExpectedConditions.visibilityOf(DriverManager.getDriver().findElement(By.xpath("//div[@class='column__item_remove-margin']//span[text()='" + value + "']"))));
+        wait.until(ExpectedConditions.visibilityOf(DriverManager.getDriver().findElement(By.xpath("//div[@class='sort']//span[text()='" + value + "']"))));
     }
 
     public void selectCheckBox (String value) {
         WebElement checkBox = DriverManager.getDriver().findElement(By.xpath("//span[text()='" + value + "']"));
         scrollToElement(checkBox);
         click(checkBox);
-        wait.until(ExpectedConditions.visibilityOf(DriverManager.getDriver().findElement(By.xpath("//div[@class='column__item_remove-margin']//span[text()='" + value + "']"))));
+        wait.until(ExpectedConditions.visibilityOf(DriverManager.getDriver().findElement(By.xpath("//div[@class='sort']//span[text()='" + value + "']"))));
     }
 
     public Map<String, String> addProducts(boolean parity, int count) throws Exception{
@@ -77,11 +70,15 @@ public class ResultPage extends BasePage {
         return products;
     }
 
-    @Override
-    public void fillField(WebElement field, String value) {
-        super.fillField(field, value);
-        field.sendKeys(Keys.ENTER);
-        DriverManager.getDriver().findElement(By.xpath("//div[@class='column__item_remove-margin']//div[contains(text(), 'Цена')]"));
+    public void fillFieldFilter(String category, String field, String value) {
+        WebElement categoryBox = DriverManager.getDriver().findElement(By.xpath("//div[contains(text(), '" + category + "')]/.."));
+        WebElement fieldValue = null;
+        if ("от".equalsIgnoreCase(field)) fieldValue = categoryBox.findElement(By.xpath(".//label[text()='от']/../input"));
+        else if ("до".equalsIgnoreCase(field)) fieldValue = categoryBox.findElement(By.xpath(".//label[text()='до']/../input"));
+            else Assert.fail("отсутствует поле \"" + field + "\" в категории \"" + "\"");
+        fillField(fieldValue, value);
+        fieldValue.sendKeys(Keys.ENTER);
+        wait.until(ExpectedConditions.visibilityOf(DriverManager.getDriver().findElement(By.xpath("//div[@class='sort']//span[text()='" + category + "']"))));
     }
 
     @Override

@@ -28,7 +28,6 @@ public abstract class BasePage {
         js.executeScript("return arguments[0].style.border='1px solid black';", field);
     }
 
-
     public void click(WebElement element){
         //wait.until(ExpectedConditions.elementToBeClickable(element));
         js.executeScript("arguments[0].click();", element);
@@ -47,7 +46,6 @@ public abstract class BasePage {
     public void scrollToElement(WebElement element) {
         js.executeScript("return arguments[0].scrollIntoView(false);", element);
     }
-
 
     public void fillField(String name, String value) throws Exception {
         WebElement element = getElement(name);

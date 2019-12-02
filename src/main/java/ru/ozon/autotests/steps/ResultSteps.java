@@ -24,15 +24,14 @@ public class ResultSteps {
         resultPage.loadPage();
     }
 
-    @When("ограничить цену - (.*) \"(.*)\"")
-    public void fillFieldStep(String field, String value) throws Exception {
-        resultPage.fillField(field, value);
+    @When("ограничить значение поля \"(.*)\" - (.*) \"(.*)\"")
+    public void fillFieldStep(String category, String field, String value) {
+        resultPage.fillFieldFilter(category, field, value);
     }
 
     @When("выбрать чекбокс \"(.*)\"")
-    public void selectCheckBoxStep(String field) throws Exception {
+    public void selectCheckBoxStep(String field) {
         resultPage.selectCheckBox(field);
-        Thread.sleep(2000);
     }
 
     @When("открыть список вариантов у категории чекбоксов - \"(.*)\"")
@@ -41,7 +40,7 @@ public class ResultSteps {
     }
 
     @When("выбрать в категории \"(.*)\" чекбокс \"(.*)\"")
-    public void selectCheckBoxInCatStep(String category, String value) throws Exception {
+    public void selectCheckBoxInCatStep(String category, String value) {
         resultPage.selectCheckBox(category, value);
     }
 

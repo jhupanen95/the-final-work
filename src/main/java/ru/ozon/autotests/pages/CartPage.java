@@ -27,7 +27,6 @@ public class CartPage extends BasePage {
     @FieldName(name = "Корзина пуста")
     public WebElement clearCart;
 
-
     public void loadPage() throws Exception{
         wait.until(ExpectedConditions.visibilityOf(getElement("Корзина")));
     }
@@ -39,7 +38,6 @@ public class CartPage extends BasePage {
         }
         return false;
     }
-
 
     @Override
     public WebElement getElement(String name) throws Exception {
