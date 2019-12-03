@@ -32,7 +32,7 @@ public class CartPage extends BasePage {
     }
 
     public boolean checkProduct(String productName) {
-        List<WebElement> productsInCart = DriverManager.getDriver().findElements(By.xpath("//a[@class='a5c8']//span"));
+        List<WebElement> productsInCart = DriverManager.getDriver().findElements(By.xpath("//div[contains(@class, 'column__item_remove-margin')]/div/div/a/span"));
         for (WebElement element: productsInCart) {
             if(element.getText().contains(productName)) return true;
         }
