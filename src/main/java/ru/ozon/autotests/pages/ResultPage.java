@@ -29,6 +29,9 @@ public class ResultPage extends BasePage {
     @FieldName(name = "Корзина")
     public WebElement cart;
 
+//    @FindBy(xpath = "//div[text()='В корзину ']/ancestor::a")
+//    public List<WebElement> productList;
+
     public void loadPage() throws Exception{
         wait.until(ExpectedConditions.visibilityOf(getElement("По запросу")));
     }

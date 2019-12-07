@@ -6,6 +6,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.ozon.autotests.annotation.FieldName;
@@ -20,6 +21,9 @@ public abstract class BasePage {
     public WebDriverWait wait  = new WebDriverWait(DriverManager.getDriver(), 60);
     JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
 
+    public BasePage() {
+        PageFactory.initElements(DriverManager.getDriver(), this);
+    }
 
     public void fillField(WebElement field, String value){
         js.executeScript("return arguments[0].style.border='1px solid magenta';", field);
@@ -58,8 +62,13 @@ public abstract class BasePage {
         js.executeScript("arguments[0].click();", element);
     }
 
-    public WebElement getField(String name, String className) throws Exception {
-        Class example = Class.forName(className);
+    public WebElement getField(String name, String className) {
+        Class example = null;
+        try {
+            example = Class.forName(className);
+        } catch (ClassNotFoundException e) {
+            Assert.fail("Не найден класс PageObject " + className);
+        }
         List<Field> fields = Arrays.asList(example.getFields());
         for (Field field : fields){
             if (field.getAnnotation(FieldName.class).name().equals(name)){

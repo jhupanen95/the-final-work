@@ -27,12 +27,14 @@ public class CartPage extends BasePage {
     @FieldName(name = "Корзина пуста")
     public WebElement clearCart;
 
+    @FindBy(xpath = "//div[contains(@class, 'column__item_remove-margin')]/div/div/a/span")
+    public List<WebElement> productsInCart;
+
     public void loadPage() throws Exception{
         wait.until(ExpectedConditions.visibilityOf(getElement("Корзина")));
     }
 
     public boolean checkProduct(String productName) {
-        List<WebElement> productsInCart = DriverManager.getDriver().findElements(By.xpath("//div[contains(@class, 'column__item_remove-margin')]/div/div/a/span"));
         for (WebElement element: productsInCart) {
             if(element.getText().contains(productName)) return true;
         }

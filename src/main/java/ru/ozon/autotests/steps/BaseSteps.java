@@ -27,7 +27,7 @@ public class BaseSteps {
     }
 
     @After
-    public void end(Scenario scenario) {
+    public void tearDown(Scenario scenario) {
         if(scenario.isFailed()){
             takeScreenshot();
         }
